@@ -1,3 +1,6 @@
+/*This function generates a random choice between rock, paper, scissors for 
+the computer*/
+
 function getComputerChoice(min, max) {
     /*
     choose a random number from 1 to 3 ( 1 or 2 or 3)
@@ -23,6 +26,8 @@ function getComputerChoice(min, max) {
     }
 }
 
+/*This function runs a game of 1 round and compare user choice vs computer's*/
+
 function playGame(playerSelection, computerSelection) {
     let choice = playerSelection.toLowerCase();
     if (choice === computerSelection) {
@@ -41,6 +46,9 @@ function playGame(playerSelection, computerSelection) {
         return `You Lose! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)}`;
     }
 }
+
+/*This function runs a game of how many rounds depending on the user's input of
+number of rounds, and shows the final result of the game*/
 
 function game(round) {
     let playerScore = 0;

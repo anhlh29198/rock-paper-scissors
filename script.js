@@ -28,48 +28,36 @@ function getComputerChoice(min, max) {
 
 /*This function runs a game of 1 round and compare user choice vs computer's*/
 
-function playGame(playerSelection, computerSelection) {
-    let choice = playerSelection.toLowerCase();
-    if (choice === computerSelection) {
-        return "Draw";
+function playRound(playerChoice, computerChoice) {
+    let choice = playerChoice.toLowerCase();
+    if (choice === computerChoice) {
+        console.log("Draw");
+        return "0";
     }
 
-    else if ((choice === "rock" && computerSelection === "scissors") || 
-            (choice === "scissors" && computerSelection === "paper") ||
-            (choice === "paper" && computerSelection === "rock")) {
-        return `You Win! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)}`;
+    else if ((choice === "rock" && computerChoice === "scissors") || 
+            (choice === "scissors" && computerChoice === "paper") ||
+            (choice === "paper" && computerChoice === "rock")) {
+        console.log(`You Win! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}`);
+        return "1";
     }
 
-    else if ((choice === "paper" && computerSelection === "scissors") ||
-            (choice === "scissors" && computerSelection === "rock") || 
-            (choice === "rock" && computerSelection === "paper")) {
-        return `You Lose! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)}`;
+    else if ((choice === "paper" && computerChoice === "scissors") ||
+            (choice === "scissors" && computerChoice === "rock") || 
+            (choice === "rock" && computerChoice === "paper")) {
+        console.log(`You Lose! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}`);
+        return "-1";
     }
 }
 
 /*This function runs a game of how many rounds depending on the user's input of
 number of rounds, and shows the final result of the game*/
-
+/*
 function game(round) {
     let playerScore = 0;
     let computerScore = 0;
-    for (let i = 1; i <= round; i++) {
-        const computerSelection = getComputerChoice(1, 3);
-        console.log(computerSelection);
-        const playerSelection = prompt("Rock, Paper, or Scissors? ");
 
-        console.log(playGame(playerSelection, computerSelection));
-
-        const result = playGame(playerSelection, computerSelection);
-        if (result.charAt(4) === "W") {
-            playerScore += 1;
-        }
-        else if (result.charAt(4) === "L") {
-            computerScore += 1;
-        }
-        console.log(`User's Score: ${playerScore}, Computer's Score: ${computerScore} `);
-    }
-    
+   
     if (playerScore > computerScore) {
         console.log(`You win against Computer in a ${round}-round game :D`);
     }
@@ -80,8 +68,122 @@ function game(round) {
         console.log("Tis but a draw :|");
     }
 }
+*/
 
-const round = +prompt("How many rounds of Rock-Paper-Scissors?");
+function checkResult(result) {
+    if (result === "1") {
+        playerScore += 1;
+    }
+    else if (result === "-1") {
+        computerScore += 1;
+    }
+}
 
-game(round);
+function checkScore(playerScore, computerScore, round) {
+    if (playerScore === round) {
+        console.log(`You win against Computer in a ${round}-round game :D`);
+    }
+    else if (computerScore === round){
+        console.log(`You lose against Computer in a ${round}-round game :(`);
+    }
+}
 
+
+
+
+const btnRock = document.querySelector("#Rock");
+const btnPaper = document.querySelector("#Paper");
+const btnScissors = document.querySelector("#Scissors");
+const inputText = document.getElementById("form");
+
+let playerChoice = "";
+let playerScore = 0;
+let computerScore = 0;
+let round = "";
+
+inputText.addEventListener("submit", function(e) {
+    e.preventDefault();
+    round = +e.target[0].value;
+});
+
+
+btnRock.addEventListener("click", () => {
+    playerChoice = "Rock";
+    const computerChoice = getComputerChoice(1, 3);
+    console.log(computerChoice);
+
+    const result = playRound(playerChoice, computerChoice);
+    checkResult(result);
+
+    console.log(playerScore, computerScore);
+    checkScore(playerScore, computerScore, round);
+    
+});
+
+btnPaper.addEventListener("click", () => {
+    playerChoice = "Paper";
+    const computerChoice = getComputerChoice(1, 3);
+    console.log(computerChoice);
+
+    const result = playRound(playerChoice, computerChoice);
+    checkResult(result);
+
+    console.log(playerScore, computerScore);
+
+    checkScore(playerScore, computerScore, round);
+});
+
+btnScissors.addEventListener("click", () => {
+    playerChoice = "Scissors";
+    const computerChoice = getComputerChoice(1, 3);
+    console.log(computerChoice);
+
+    const result = playRound(playerChoice, computerChoice);
+    checkResult(result);
+
+    console.log(playerScore, computerScore);
+    checkScore(playerScore, computerScore, round);
+});
+
+
+
+
+
+
+/*
+if (playerScore > computerScore) {
+    console.log(`You win against Computer in a ${round}-round game :D`);
+}
+else if (playerScore < computerScore) {
+    console.log(`You lose against Computer in a ${round}-round game :(`);
+}
+else if (playerScore === computerScore) {
+    console.log("Tis but a draw :|");
+}
+*/
+
+
+/*
+btnPaper.addEventListener("click", () => {
+    playerChoice = "Paper";
+    playRound(playerChoice, computerChoice);
+});
+
+btnScissors.addEventListener("click", () => {
+    playerChoice = "Scissors";
+    playRound(playerChoice, computerChoice);
+});
+
+*/
+
+
+/*
+click a button, rock, paper, or scissors
+the event is click
+the playerchoice is the button #id
+the playerchoice is the input to playround()
+*/
+
+
+//const round = +prompt("How many rounds of Rock-Paper-Scissors?");
+//game(5);

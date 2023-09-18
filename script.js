@@ -31,21 +31,21 @@ function getComputerChoice(min, max) {
 function playRound(playerChoice, computerChoice) {
     let choice = playerChoice.toLowerCase();
     if (choice === computerChoice) {
-        console.log("Draw");
+        text += "Draw <br/>";
         return "0";
     }
 
     else if ((choice === "rock" && computerChoice === "scissors") || 
             (choice === "scissors" && computerChoice === "paper") ||
             (choice === "paper" && computerChoice === "rock")) {
-        console.log(`You Win! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}`);
+        text += `You Win! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}<br/>`;
         return "1";
     }
 
     else if ((choice === "paper" && computerChoice === "scissors") ||
             (choice === "scissors" && computerChoice === "rock") || 
             (choice === "rock" && computerChoice === "paper")) {
-        console.log(`You Lose! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}`);
+        text += `You Lose! ${choice.charAt(0).toUpperCase() + choice.slice(1)} beats ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}<br/>`;
         return "-1";
     }
 }
@@ -81,43 +81,60 @@ function checkResult(result) {
 
 function checkScore(playerScore, computerScore, round) {
     if (playerScore === round) {
-        console.log(`You win against Computer in a ${round}-round game :D`);
+        text += `You win against Computer in a ${round}-round game :D<br/>`;
     }
     else if (computerScore === round){
-        console.log(`You lose against Computer in a ${round}-round game :(`);
+        text += `You lose against Computer in a ${round}-round game :(<br/>`;
     }
 }
 
+function play(playerChoice, computerChoice) {
+    const result = playRound(playerChoice, computerChoice);
+    checkResult(result);
+
+    console.log(playerScore, computerScore);
+    checkScore(playerScore, computerScore, round);
+    p.innerHTML = text;
+}
 
 
-
-const btnRock = document.querySelector("#Rock");
-const btnPaper = document.querySelector("#Paper");
-const btnScissors = document.querySelector("#Scissors");
 const inputText = document.getElementById("form");
+const btn = document.querySelectorAll("button");
+const p = document.querySelector("p");
 
 let playerChoice = "";
 let playerScore = 0;
 let computerScore = 0;
 let round = "";
 
+let text = "";
+
 inputText.addEventListener("submit", function(e) {
     e.preventDefault();
     round = +e.target[0].value;
+    text += `Win ${round} round to win<br/>`;
 });
 
+btn.forEach( (node) => {
+    node.addEventListener("click", (e) => {
+        playerChoice = e.target.id;
+        text += `${playerChoice}<br/>`;
+        
+        const computerChoice = getComputerChoice(1, 3);
+        text += `${computerChoice}<br/>`;
 
+        play(playerChoice, computerChoice);
+    });
+});
+
+/*
 btnRock.addEventListener("click", () => {
+    console.log;
     playerChoice = "Rock";
     const computerChoice = getComputerChoice(1, 3);
     console.log(computerChoice);
 
-    const result = playRound(playerChoice, computerChoice);
-    checkResult(result);
-
-    console.log(playerScore, computerScore);
-    checkScore(playerScore, computerScore, round);
-    
+    play(playerChoice, computerChoice);
 });
 
 btnPaper.addEventListener("click", () => {
@@ -125,12 +142,7 @@ btnPaper.addEventListener("click", () => {
     const computerChoice = getComputerChoice(1, 3);
     console.log(computerChoice);
 
-    const result = playRound(playerChoice, computerChoice);
-    checkResult(result);
-
-    console.log(playerScore, computerScore);
-
-    checkScore(playerScore, computerScore, round);
+    play(playerChoice, computerChoice);
 });
 
 btnScissors.addEventListener("click", () => {
@@ -138,44 +150,10 @@ btnScissors.addEventListener("click", () => {
     const computerChoice = getComputerChoice(1, 3);
     console.log(computerChoice);
 
-    const result = playRound(playerChoice, computerChoice);
-    checkResult(result);
-
-    console.log(playerScore, computerScore);
-    checkScore(playerScore, computerScore, round);
-});
-
-
-
-
-
-
-/*
-if (playerScore > computerScore) {
-    console.log(`You win against Computer in a ${round}-round game :D`);
-}
-else if (playerScore < computerScore) {
-    console.log(`You lose against Computer in a ${round}-round game :(`);
-}
-else if (playerScore === computerScore) {
-    console.log("Tis but a draw :|");
-}
-*/
-
-
-/*
-btnPaper.addEventListener("click", () => {
-    playerChoice = "Paper";
-    playRound(playerChoice, computerChoice);
-});
-
-btnScissors.addEventListener("click", () => {
-    playerChoice = "Scissors";
-    playRound(playerChoice, computerChoice);
+    play(playerChoice, computerChoice);
 });
 
 */
-
 
 /*
 click a button, rock, paper, or scissors
@@ -184,6 +162,3 @@ the playerchoice is the button #id
 the playerchoice is the input to playround()
 */
 
-
-//const round = +prompt("How many rounds of Rock-Paper-Scissors?");
-//game(5);
